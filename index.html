@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<title>정부지원사업 러닝 메이트</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<style>
+/* 레이아웃: 폰 폭 한 줄 기둥(최대 430px)에 피그마 구간 그림을 위에서 아래로 쌓고, 버튼·팝업·하단 모집 바만 실제 요소로 올린다. 한 가지 모습으로 고정한 디자인. */
+:root{
+  --ink:#0B0A0F; --red:#E5232E; --red-soft:#FEF0F0; --paper:#FFFFFF; --soft:#F4F4F6;
+  --line:#DEDEE3; --muted:#6B6B74; --hint:#A8A8B3; --kakao:#FEE500; --stage:#17161B;
+  --font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+[hidden]{display:none !important}
+body{background:var(--stage);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5}
+.col{max-width:430px;margin:0 auto;background:var(--ink);position:relative;padding-bottom:76px}
+.sec{position:relative;display:block}
+.sec img{display:block;width:100%;height:auto}
+.hot{position:absolute;display:block;border-radius:999px;background:transparent;border:0;padding:0;cursor:pointer}
+.hot:focus-visible,.bar button:focus-visible,.sheet button:focus-visible,.sheet input:focus-visible,.sheet textarea:focus-visible,.opt input:focus-visible+span{outline:3px solid #7aa7ff;outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* 움직이는 구간 */
+.mq{overflow:hidden}
+.mq-track{display:flex;width:max-content}
+.mq.run .mq-track{animation:mq var(--d,30s) linear infinite}
+.mq.rev.run .mq-track{animation-direction:reverse}
+@keyframes mq{to{transform:translateX(-50%)}}
+.band{background:var(--red);color:var(--paper);font-weight:700;font-size:13px;padding:11px 0}
+.band span{padding:0 14px;white-space:nowrap}
+.band span::after{content:"✦";margin-left:28px;font-size:10px;opacity:.9}
+.live{background:var(--ink);color:var(--paper);text-align:center;padding:48px 0 52px;
+  background-image:radial-gradient(120% 60% at 50% 110%,rgba(229,35,46,.42),transparent 70%),linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:auto,100% 96px,96px 100%}
+.live p,.live h2{margin:0}
+.lv-label{font-size:13.5px;font-weight:700;color:#FF4A54;letter-spacing:.04em}
+.live h2{font-size:24px;font-weight:900;line-height:1.42;margin-top:12px;text-wrap:balance}
+.lv-sub{font-size:13.5px;color:#C4C4CC;margin-top:12px !important;padding:0 22px}
+.lv-sub b{color:var(--paper);font-weight:700;font-variant-numeric:tabular-nums}
+.lv-cap{font-size:12px;color:#C4C4CC;margin-top:16px !important}
+.big{font-size:64px;font-weight:900;line-height:1.18;letter-spacing:-.01em;margin-top:10px !important;white-space:nowrap}
+.big span{font-size:.86em}
+.big b{font-variant-numeric:tabular-nums}
+.big i{font-style:normal;font-size:26px;color:#FF4A54;margin-left:4px}
+.cards{margin-top:20px}
+.cards img{width:150px;height:auto;border-radius:12px;margin-right:12px;flex:none}
+.wall .yt{margin-top:10px}
+.wall .yt:first-of-type{margin-top:20px}
+.wall .yt a{position:relative;display:block;flex:none;width:176px;margin-right:10px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.14)}
+.wall .yt img{display:block;width:176px;height:99px;object-fit:cover}
+.wall .yt a::after{content:"";position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:rgba(229,35,46,.95)}
+.lv-link{display:inline-block;margin-top:18px;color:var(--paper);font-weight:700;font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.clock{padding:40px 0 44px}
+.tm{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.tm div{width:70px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px 0 10px}
+.tm b{display:block;font-size:32px;font-weight:900;line-height:1.1;font-variant-numeric:tabular-nums}
+.tm span{font-size:11.5px;color:#C4C4CC}
+.lv-btn{margin-top:20px;background:var(--red);color:var(--paper);border:0;border-radius:999px;font:900 16px var(--font);padding:16px 30px;cursor:pointer;box-shadow:0 10px 26px rgba(229,35,46,.45)}
+a.lv-btn{display:inline-block;text-decoration:none}
+.lv-btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.45);box-shadow:none;font-weight:700}
+.visit-btns{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:22px}
+.visit-btns .lv-btn{margin-top:0;width:calc(100% - 64px);max-width:320px;box-sizing:border-box;text-align:center}
+.win{display:block;margin:22px 22px 0;border-radius:14px;overflow:hidden;background:#fff;text-decoration:none;box-shadow:0 18px 40px rgba(0,0,0,.5);transition:transform .25s ease}
+.win:hover,.win:active{transform:translateY(-4px)}
+.win-bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:#ECECF0}
+.win-bar i{width:9px;height:9px;border-radius:50%;background:#C9C9D1}
+.win-bar i:first-child{background:var(--red)}
+.win-bar em{flex:1;margin-left:8px;font-style:normal;font-size:11.5px;color:#55555F;background:#fff;border-radius:999px;padding:5px 12px;text-align:left}
+.win-body{display:block;padding:18px 14px 0;height:214px;overflow:hidden}
+.win-body strong{display:block;font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.01em}
+.win-row{display:flex;gap:8px;margin-top:14px}
+.win-row img{flex:1;min-width:0;width:33%;height:auto;border-radius:8px;display:block}
+.rv{opacity:.25;transform:translateY(22px);transition:opacity .45s ease,transform .45s ease}
+.rv.in{opacity:1;transform:none}
+.hot.js-open{overflow:hidden}
+.hot.js-open::after{content:"";position:absolute;top:0;bottom:0;width:38%;left:-45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);animation:shine 3.2s ease-in-out infinite}
+@keyframes shine{0%,55%{left:-45%}100%{left:120%}}
+@media (prefers-reduced-motion:reduce){.mq.run .mq-track,.hot.js-open::after{animation:none}.mq{overflow-x:auto}.rv{opacity:1;transform:none;transition:none}}
+
+/* 하단 모집 바 */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;pointer-events:none;transform:translateY(110%);transition:transform .3s ease}
+.bar.on{transform:none}
+.bar-in{pointer-events:auto;width:100%;max-width:430px;background:var(--paper);border-top:1px solid var(--line);box-shadow:0 -6px 18px rgba(0,0,0,.1);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px))}
+.bar-t{min-width:0}
+.bar-t small{display:block;font-size:11.5px;color:var(--muted);font-weight:500}
+.bar-t b{display:block;font-size:15.5px;font-weight:900;white-space:nowrap}
+.bar-t b em{font-style:normal;color:var(--red);margin-left:6px}
+.bar button{flex:none;background:var(--red);color:var(--paper);border:0;border-radius:999px;font:700 14px var(--font);padding:13px 18px;cursor:pointer}
+
+/* 신청 팝업 */
+.dim{position:fixed;inset:0;z-index:30;background:rgba(10,10,14,.62);display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:430px;max-height:92%;overflow-y:auto;background:var(--paper);border-radius:24px 24px 0 0;
+  padding:12px max(20px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+  display:flex;flex-direction:column;gap:18px;animation:up .28s ease}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.sheet{animation:none}.bar{transition:none}html{scroll-behavior:auto}}
+.grab{width:40px;height:4px;border-radius:2px;background:var(--line);align-self:center}
+.sh-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.sh-head h2{margin:0;font-size:20px;font-weight:900;text-wrap:balance}
+.sh-head p{margin:4px 0 0;font-size:12.5px;color:var(--muted)}
+.x{background:none;border:0;font-size:22px;line-height:1;color:var(--muted);cursor:pointer;padding:4px 6px}
+form{display:flex;flex-direction:column;gap:18px}
+.f{display:flex;flex-direction:column;gap:7px;min-width:0}
+.f > label,.f > .lab{font-size:13px;font-weight:700}
+.req{color:var(--red);margin-left:3px}
+.opt-l{color:var(--hint);font-weight:400;font-size:11.5px;margin-left:4px}
+.sheet input[type=text],.sheet input[type=tel],.sheet input[type=number],.sheet textarea{
+  width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;padding:13px 14px;font:500 15px var(--font);color:var(--ink);background:var(--paper)}
+.sheet textarea{min-height:84px;resize:vertical}
+.sheet ::placeholder{color:var(--hint);font-weight:400}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.unit{position:relative}
+.unit input{padding-right:52px !important}
+.unit span{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted)}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opts.even .opt{flex:1 1 0}
+.opt{position:relative;display:block}
+.opt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.opt span{display:block;text-align:center;border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:13.5px;font-weight:500;background:var(--paper);white-space:nowrap}
+.opt input:checked+span{background:var(--ink);border-color:var(--ink);color:var(--paper);font-weight:700}
+.box{border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.box.sem{background:var(--red-soft)}
+.box.co{background:var(--soft)}
+.box h3{margin:0;font-size:13px;font-weight:900;color:var(--red)}
+.agree{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+.agree input{width:20px;height:20px;accent-color:var(--red);margin:0}
+.go{background:var(--red);color:var(--paper);border:0;border-radius:14px;font:900 16px var(--font);padding:16px;cursor:pointer}
+.note{margin:0;text-align:center;font-size:12px;color:var(--muted)}
+.err{margin:0;font-size:13px;font-weight:700;color:var(--red)}
+.done{align-items:center;text-align:center;gap:14px;padding-top:28px}
+.done .ok{width:64px;height:64px;border-radius:50%;background:var(--red);color:var(--paper);font-size:30px;font-weight:900;display:grid;place-items:center}
+.done h2{margin:0;font-size:22px;font-weight:900}
+.done p{margin:0;font-size:14px;color:var(--muted)}
+.done .slot{font-size:16px;font-weight:900;color:var(--ink)}
+.done .close{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:14px;font:700 15px var(--font);padding:15px;cursor:pointer;color:var(--ink)}
+.done .pre{font-size:12px;color:var(--muted);background:var(--soft);border-radius:10px;padding:10px 12px}
+</style>
+
+<main class="col" id="top">
+  <div class="sec"><img src="img/s01.png" width="780" height="117" alt="playup partners × soullabs">
+    <button class="hot js-open" style="left:71.3%;top:27.4%;width:14.9%;height:44.4%" aria-label="무료 세미나 신청"></button></div>
+  <div class="sec"><img src="img/s02.png" width="780" height="1614" alt="정부지원사업 러닝 메이트 1기. 브로커 말고 내 손으로 끝내는 지름길입니다. 누적 선정금액 477억, 누적 투자 387억, 4주 과정.">
+    <button class="hot js-open" style="left:17.9%;top:85.7%;width:64.1%;height:6.5%" aria-label="1기 무료 세미나 신청하기"></button></div>
+  <div class="band mq" data-speed="26" aria-label="모두의 창업 프로젝트, 초기창업패키지, 창업중심대학, TIPS, 창업도약패키지, 수출바우처, R&D 디딤돌">
+    <div class="mq-track"><span>모두의 창업 프로젝트</span><span>초기창업패키지</span><span>창업중심대학</span><span>TIPS</span><span>창업도약패키지</span><span>수출바우처</span><span>R&amp;D 디딤돌</span></div></div>
+  <div class="sec"><img src="img/s04.png" width="780" height="1738" loading="lazy" alt="매년 정부지원사업 예산 수십조 원. 통장에 현금이 들어오는 제도가 아니라 사업에 쓰는 비용을 대 주는 제도입니다. 모르면 한 번도 활용하지 못한 채 창업합니다."></div>
+  <div class="sec"><img src="img/s05.png" width="780" height="4326" loading="lazy" alt="소상공인과 스타트업은 다릅니다. 모든 스타트업은 죽음의 계곡을 지납니다. 창업이 망하는 이유의 98%는 자금 부족. J커브를 이긴 자만이 스타트업 씬에서 살아남기 유리합니다."></div>
+  <div class="sec"><img src="img/s06.png" width="780" height="1690" loading="lazy" alt="처음에 누구를 만났느냐가 끝을 바꿉니다. 처음부터 제대로 설계한 곳은 결국 잘되고, 처음부터 브로커에게 맡긴 곳은 결국 망합니다. 플레이업파트너스 고객사 100곳 자체 조사 기준."></div>
+  <div class="sec"><img src="img/s07.png" width="780" height="2160" loading="lazy" alt="300만원에 수수료 10%, 값을 합니까? 브로커·대행과 러닝 메이트 비교. 남는 것: 브로커의 실적 대 대표의 능력과 네트워크."></div>
+  <section class="live counter">
+    <p class="lv-label">플레이업이 함께 만든 결과</p>
+    <p class="big"><span>선정</span> <b class="cnt" data-to="477">477</b><i>억</i></p>
+    <p class="big"><span>투자</span> <b class="cnt" data-to="387">387</b><i>억</i></p>
+    <p class="lv-sub">IR 제작 <b class="cnt" data-to="500">500</b>건 이상 · 인증 <b class="cnt" data-to="337">337</b>건</p>
+    <div class="mq cards" data-speed="46"><div class="mq-track">
+      <img src="img/c01.jpg" width="320" height="551" loading="lazy" alt="고객사 성과 카드"><img src="img/c02.jpg" width="320" height="551" loading="lazy" alt="고객사 성과 카드"><img src="img/c03.jpg" width="320" height="551" loading="lazy" alt="고객사 성과 카드"><img src="img/c04.jpg" width="320" height="551" loading="lazy" alt="고객사 성과 카드"><img src="img/c05.jpg" width="320" height="551" loading="lazy" alt="고객사 성과 카드"><img src="img/c06.jpg" width="320" height="551" loading="lazy" alt="고객사 성과 카드"><img src="img/c07.jpg" width="320" height="551" loading="lazy" alt="고객사 성과 카드"><img src="img/c08.jpg" width="320" height="551" loading="lazy" alt="고객사 성과 카드"><img src="img/c09.jpg" width="320" height="551" loading="lazy" alt="고객사 성과 카드"><img src="img/c10.jpg" width="320" height="551" loading="lazy" alt="고객사 성과 카드"><img src="img/c11.jpg" width="320" height="551" loading="lazy" alt="고객사 성과 카드">
+    </div></div>
+    <p class="lv-cap">↑ 지어낸 게 아닙니다. 홈페이지에 다 공개된 성과입니다</p>
+    <a class="lv-link" href="https://www.playup-partners.com" target="_blank" rel="noopener">플레이업파트너스 홈페이지에서 전부 보기 →</a>
+  </section>
+  <div class="sec"><img src="img/s09.png" width="780" height="1537" loading="lazy" alt="플레이업 비공식 0기 싸다보카. 4주 합숙과 훈련으로 구글 창구 프로그램 선정, 지원사업 1억 선정. 김동준 이사: 플레이업은 컨설팅계의 진짜 보름달 같습니다."></div>
+  <section class="live wall">
+    <p class="lv-label">영상으로 남은 증거</p>
+    <h2>말이 아니라,<br>영상으로 확인하세요</h2>
+    <p class="lv-sub">고객사 대표들이 얼굴 걸고 말한 공식 채널 인터뷰 17편</p>
+    <div class="mq yt" data-speed="40" data-ids="3o-ZZVO4v8A TAJW8xeocBI Horx3GYkdUc 3rg2oS1nM8w 5YE0dmsQhLQ l3pkADolbJA"><div class="mq-track"></div></div>
+    <div class="mq yt rev" data-speed="44" data-ids="irQXDlj6Y-8 J_nd36b-IfE 3QMI3mtHq4Q rrCE_cgCKE4 6aPi4c1wMlI cvd7_uRfkUI"><div class="mq-track"></div></div>
+    <div class="mq yt" data-speed="36" data-ids="gdcFKFjmRTI _G7pOpyzwGE hwUIz_A0kaM 0jfiav_CIMk 8U1LQ0aZZAI"><div class="mq-track"></div></div>
+    <a class="lv-link" href="https://www.youtube.com/@playup-partners" target="_blank" rel="noopener">유튜브에서 플레이업파트너스 채널 보기 →</a>
+  </section>
+  <div class="sec"><img src="img/s11.png" width="780" height="4418" loading="lazy" alt="직접 해야 이렇게 됩니다. 브이플랫폼: 누적 지원사업 11억 8천만, 누적 투자 100억 이상, 시리즈 A. 레몬클라우드: 누적 지원사업 25억, 누적 투자 30억 이상, 딥테크 팁스 15억 선정."></div>
+  <div class="sec"><img src="img/s12.png" width="780" height="5266" loading="lazy" alt="그래서 4주 동안 이렇게 합니다. 01 기업 진단, 02 로드맵 설계, 03 사업계획서 컨설팅, 04 디자인(AI활용)."></div>
+  <div class="sec"><img src="img/s13.png" width="780" height="2623" loading="lazy" alt="4주 커리큘럼. 0강 무료 세미나는 4주와 별도. 1강 아이템 설계와 내 로드맵, 2강 문제인식과 해결방안, 3강 성장 전략, 4강 완성·디자인·발표. 필수 지참: 노트북과 클로드."></div>
+  <div class="sec"><img src="img/s14.png" width="780" height="1589" loading="lazy" alt="수업 날 저녁. 19시 눈앞에서 쓰기, 19시 30분 각자 바로 쓰기, 20시 30분 조별 피드백, 21시 40분 숙제 안내와 질문."></div>
+  <div class="sec"><img src="img/s15.png" width="780" height="1448" loading="lazy" alt="이런 대표님이면 바로 OK: 예비창업자, 3년 미만 초기 스타트업, 계속 떨어진 대표. 대신 다 써주길 바라는 분과 지원금만 노리는 분은 정중히 거절합니다."></div>
+  <div class="sec"><img src="img/s16.png" width="780" height="986" loading="lazy" alt="쓸 수 있는 제도 한 장 표: 정부지원사업(창업화 지원, R&D, 바우처), 정책자금, 연구소와 기업인증, 투자라운드."></div>
+  <div class="sec"><img src="img/s17.png" width="780" height="2408" loading="lazy" alt="1년 치 계획. 1월부터 6월 빅 시즌 대표 정부지원사업 리스트, 7월부터 12월 추가모집과 민간기관 프로그램 리스트."></div>
+  <div class="sec"><img src="img/s18.png" width="780" height="3085" loading="lazy" alt="두 사람이 옆에서 뜁니다. 류귀렬 플레이업파트너스 대표: IR 제작 500건 이상, 누적 투자 387억, 정부지원사업 누적 선정금액 477억, 인증 337건. 김진영 주식회사 소울랩스 대표."></div>
+  <section class="live visit">
+    <p class="lv-label">신청 전에 먼저 구경하세요</p>
+    <h2>플레이업파트너스가<br>어떤 회사인지 보고 오세요</h2>
+    <p class="lv-sub">고객사 성과, 컨설팅 사례, 대표 인터뷰까지 전부 공개해 뒀습니다</p>
+    <a class="win" href="https://www.playup-partners.com" target="_blank" rel="noopener" aria-label="플레이업파트너스 홈페이지 열기">
+      <span class="win-bar"><i></i><i></i><i></i><em>www.playup-partners.com</em></span>
+      <span class="win-body">
+        <strong>playup partners</strong>
+        <span class="win-row"><img src="img/c01.jpg" width="320" height="551" loading="lazy" alt=""><img src="img/c02.jpg" width="320" height="551" loading="lazy" alt=""><img src="img/c03.jpg" width="320" height="551" loading="lazy" alt=""></span>
+      </span>
+    </a>
+    <div class="visit-btns">
+      <a class="lv-btn" href="https://www.playup-partners.com" target="_blank" rel="noopener">홈페이지 구경하기 →</a>
+      <a class="lv-btn ghost" href="https://www.youtube.com/@playup-partners" target="_blank" rel="noopener">유튜브 인터뷰 보기 →</a>
+    </div>
+    <p class="lv-cap">새 창으로 열립니다. 보고 돌아와서 신청하셔도 됩니다</p>
+  </section>
+  <div class="sec"><img src="img/s19.png" width="780" height="882" loading="lazy" alt="오시는 길: 서울 서초구 효령로 418, 3층 플레이업파트너스."></div>
+  <div class="sec"><img src="img/s20.png" width="780" height="1209" loading="lazy" alt="자주 묻는 질문. 아이템이 없어도 됩니다. 글을 못 써도 수업에서 같이 씁니다. 떨어지면 다음 공고를 바로 준비합니다."></div>
+  <div class="sec"><img src="img/s21.png" width="780" height="1430" loading="lazy" alt="1기 등록 하면 드리는 것: IR 워크북 템플릿, 합격 사업계획서 5종, BM 컨설팅, 무료 로드맵 컨설팅. 전부 0원."></div>
+  <div class="sec"><img src="img/s22.png" width="780" height="2288" loading="lazy" alt="생태계를 알아야 지원사업을 받습니다. 0강 무료 세미나: 정부지원사업, 정책자금, 기업인증, 연구소, 투자, 고용지원금. 1강부터 러닝 메이트. 창업은 망설이면 집니다."></div>
+  <section class="live clock">
+    <p class="lv-label">1기 모집 마감까지</p>
+    <div class="tm" id="tm" role="timer" aria-label="1기 모집 마감까지 남은 시간">
+      <div><b id="t-d">--</b><span>일</span></div><div><b id="t-h">--</b><span>시간</span></div><div><b id="t-m">--</b><span>분</span></div><div><b id="t-s">--</b><span>초</span></div>
+    </div>
+    <p class="lv-sub">정원 30명 · 12월 20일(일) 마감</p>
+    <button type="button" class="lv-btn js-open">0강 무료 세미나 신청하기</button>
+  </section>
+  <div class="sec"><img src="img/s23.png" width="780" height="1414" loading="lazy" alt="1기 모집. 하루 6,600원, 한 달 198,000원 꼴, 전 과정 250만원. 1기 정원 30명, 12월 20일 모집 마감.">
+    <button class="hot js-open" style="left:12.3%;top:67.7%;width:75.4%;height:7%" aria-label="1기 무료 세미나 신청하기"></button>
+    <button class="hot js-kakao" style="left:12.3%;top:75.8%;width:75.4%;height:6.5%" aria-label="카카오톡으로 물어보기"></button></div>
+  <div class="sec"><img src="img/s24.png" width="780" height="963" loading="lazy" alt="창업은 망설이면 집니다. 브로커 없이, 내 손으로.">
+    <button class="hot js-open" style="left:16.7%;top:57.9%;width:66.7%;height:11.2%" aria-label="1기 무료 세미나 신청하기"></button>
+    <button class="hot js-kakao" style="left:24.4%;top:72.5%;width:51.3%;height:9.6%" aria-label="카카오톡 문의"></button></div>
+  <div class="sec"><img src="img/s25.png" width="780" height="550" loading="lazy" alt="playup partners. 고객상담 010-2412-7836, contact@playup-partners.com, 서울 서초구 효령로 418, 3층.">
+    <a class="hot" style="left:19.7%;top:32.4%;width:60.5%;height:15.3%" href="https://www.playup-partners.com" target="_blank" rel="noopener" aria-label="플레이업파트너스 홈페이지 보기"></a></div>
+</main>
+
+<div class="bar" id="bar">
+  <div class="bar-in">
+    <div class="bar-t"><small>1기 정원 30명 · 12월 20일 마감</small><b>마감까지<em id="dday"></em></b></div>
+    <button type="button" class="js-open">무료 세미나 신청</button>
+  </div>
+</div>
+
+<div class="dim" id="dim" hidden>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-title">
+    <div class="grab"></div>
+    <div id="view-form" style="display:flex;flex-direction:column;gap:18px">
+      <div class="sh-head">
+        <div><h2 id="sh-title">0강 무료 세미나 신청</h2><p>1기 모집 전에 먼저 확인하는 스파르타 무료 세미나</p></div>
+        <button type="button" class="x js-close" aria-label="닫기">✕</button>
+      </div>
+      <form id="form" novalidate>
+        <div class="box sem">
+          <h3>스파르타 무료 세미나 일정</h3>
+          <div class="f"><span class="lab">날짜<span class="req">*</span></span>
+            <div class="opts even">
+              <label class="opt"><input type="radio" name="date" id="date-1" value="12월 9일(수)"><span>12월 9일 (수)</span></label>
+              <label class="opt"><input type="radio" name="date" id="date-2" value="12월 16일(수)"><span>12월 16일 (수)</span></label>
+            </div></div>
+          <div class="f"><span class="lab">시간<span class="req">*</span></span>
+            <div class="opts even">
+              <label class="opt"><input type="radio" name="time" id="time-1" value="오후 1시~3시"><span>오후 1시~3시</span></label>
+              <label class="opt"><input type="radio" name="time" id="time-2" value="저녁 7시~9시"><span>저녁 7시~9시</span></label>
+            </div></div>
+        </div>
+        <div class="f"><label for="name">이름<span class="req">*</span></label><input type="text" id="name" name="name" placeholder="성함을 적어 주세요" autocomplete="name"></div>
+        <div class="f"><label for="phone">연락처<span class="req">*</span></label><input type="tel" id="phone" name="phone" placeholder="010-0000-0000" inputmode="numeric" autocomplete="tel"></div>
+        <div class="two">
+          <div class="f"><label for="age">나이<span class="req">*</span></label><div class="unit"><input type="number" id="age" name="age" placeholder="예) 35" min="14" max="99" inputmode="numeric"><span>세</span></div></div>
+          <div class="f"><span class="lab">성별<span class="req">*</span></span>
+            <div class="opts even">
+              <label class="opt"><input type="radio" name="gender" id="gender-m" value="남"><span>남</span></label>
+              <label class="opt"><input type="radio" name="gender" id="gender-f" value="여"><span>여</span></label>
+            </div></div>
+        </div>
+        <div class="f"><label for="job">현 직종<span class="req">*</span></label><input type="text" id="job" name="job" placeholder="예) 회사원, 자영업, 대표"></div>
+        <div class="f"><span class="lab">기업 연차<span class="req">*</span></span>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="stage" id="stage-0" value="예비"><span>예비</span></label>
+            <label class="opt"><input type="radio" name="stage" id="stage-1" value="3년 미만"><span>3년 미만</span></label>
+            <label class="opt"><input type="radio" name="stage" id="stage-2" value="3년 이상 7년 미만"><span>3년 이상 7년 미만</span></label>
+            <label class="opt"><input type="radio" name="stage" id="stage-3" value="7년 이상"><span>7년 이상</span></label>
+          </div></div>
+        <div class="box co" id="co" hidden>
+          <h3>기업 정보</h3>
+          <div class="f"><label for="company">기업명<span class="req">*</span></label><input type="text" id="company" name="company" placeholder="예) 주식회사 플레이업"></div>
+          <div class="two">
+            <div class="f"><label for="sales">작년 매출<span class="opt-l">(선택)</span></label><div class="unit"><input type="number" id="sales" name="sales" placeholder="예) 3" min="0" step="0.1" inputmode="decimal"><span>억 원</span></div></div>
+            <div class="f"><label for="insured">4대보험 가입자<span class="opt-l">(선택)</span></label><div class="unit"><input type="number" id="insured" name="insured" placeholder="예) 5" min="0" inputmode="numeric"><span>명</span></div></div>
+          </div>
+          <div class="f"><label for="service">서비스<span class="opt-l">(선택)</span></label><textarea id="service" name="service" maxlength="200" placeholder="어떤 서비스·제품인지 한두 줄로 적어 주세요"></textarea></div>
+        </div>
+        <label class="agree"><input type="checkbox" id="agree" name="agree"> 개인정보 수집·이용에 동의합니다<span class="req">*</span></label>
+        <p class="note" style="text-align:left">수집 항목: 위에 적은 내용 · 목적: 세미나 안내와 상담 · 보관: 모집 종료 후 파기</p>
+        <p class="err" id="err" role="alert" hidden></p>
+        <button type="submit" class="go">무료 세미나 신청하기</button>
+        <p class="note">신청만으로 등록되지 않습니다. 0강을 듣고 결정하세요.</p>
+      </form>
+    </div>
+    <div id="view-done" class="done" style="display:flex;flex-direction:column" hidden>
+      <div class="ok">✓</div>
+      <h2>신청이 접수됐습니다</h2>
+      <p class="slot" id="done-slot"></p>
+      <p>장소와 준비물을 적어 주신 번호로 문자 드리겠습니다.</p>
+      <p class="pre" id="done-pre" hidden>미리보기 화면입니다. 신청 내용이 아직 저장되지 않습니다.</p>
+      <button type="button" class="close js-close">닫기</button>
+      <p style="font-weight:700;color:var(--ink)">창업은 망설이면 집니다. 잘 오셨습니다.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // 운영 설정: 신청 내용을 받을 주소와 카카오톡 채널 주소를 넣으면 바로 연결됩니다.
+  var CONFIG={ SUBMIT_URL:"https://script.google.com/macros/s/AKfycbzvAQYytDYrZ1jO67jxpUK9q7ZWGV2SJ3T-A5D1F2m5jUavMOa652owY2s2tcDGaPaV/exec", KAKAO_URL:"", DEADLINE:"2026-12-20T23:59:59+09:00" };
+  var $=function(s){return document.querySelector(s)}, $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+  var dim=$("#dim"), bar=$("#bar"), form=$("#form"), co=$("#co"), err=$("#err");
+  var viewForm=$("#view-form"), viewDone=$("#view-done"), lastFocus=null;
+
+  var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // 마감까지 남은 시간(초 단위)
+  (function(){
+    var end=new Date(CONFIG.DEADLINE).getTime(), el=$("#dday");
+    function p(n){ return (n<10?"0":"")+n; }
+    function tick(){
+      var left=end-Date.now();
+      if(left<=0){ el.textContent="모집 마감"; ["d","h","m","s"].forEach(function(k){ $("#t-"+k).textContent="00"; }); return false; }
+      var s=Math.floor(left/1000), d=Math.floor(s/86400), h=Math.floor(s%86400/3600), m=Math.floor(s%3600/60), x=s%60;
+      el.textContent=d+"일 "+p(h)+":"+p(m)+":"+p(x);
+      $("#t-d").textContent=d; $("#t-h").textContent=p(h); $("#t-m").textContent=p(m); $("#t-s").textContent=p(x);
+      return true;
+    }
+    if(tick()) var iv=setInterval(function(){ if(!tick()) clearInterval(iv); },1000);
+  })();
+
+  // 흐르는 줄: 내용을 두 벌로 만들어 끊김 없이 돌린다
+  $$(".mq.yt").forEach(function(m){
+    var t=m.querySelector(".mq-track");
+    m.getAttribute("data-ids").split(" ").forEach(function(id){
+      var a=document.createElement("a"); a.href="https://www.youtube.com/watch?v="+id; a.target="_blank"; a.rel="noopener"; a.setAttribute("aria-label","인터뷰 영상 보기");
+      var im=document.createElement("img"); im.src="img/y_"+id+".jpg"; im.width=320; im.height=180; im.loading="lazy"; im.alt="";
+      a.appendChild(im); t.appendChild(a);
+    });
+  });
+  $$(".mq").forEach(function(m){
+    var t=m.querySelector(".mq-track"); if(!t||calm) return;
+    Array.prototype.slice.call(t.children).forEach(function(c){ var k=c.cloneNode(true); k.setAttribute("aria-hidden","true"); if(k.tagName==="A") k.tabIndex=-1; t.appendChild(k); });
+    m.style.setProperty("--d",(m.getAttribute("data-speed")||30)+"s"); m.classList.add("run");
+  });
+
+  // 숫자 올라가기 + 구간 등장
+  if(!calm && "IntersectionObserver" in window){
+    var co2=new IntersectionObserver(function(es){ es.forEach(function(e){
+      if(!e.isIntersecting) return; co2.unobserve(e.target);
+      var el=e.target, to=+el.getAttribute("data-to"), t0=null;
+      function step(ts){ if(!t0) t0=ts; var k=Math.min(1,(ts-t0)/1500), v=Math.round(to*(1-Math.pow(1-k,3))); el.textContent=v; if(k<1) requestAnimationFrame(step); }
+      el.textContent="0"; requestAnimationFrame(step);
+    }); },{threshold:.6});
+    $$(".cnt").forEach(function(el){ co2.observe(el); });
+    var ro=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); ro.unobserve(e.target); } }); },{rootMargin:"0px 0px -4% 0px"});
+    $$("main > .sec, main > .live").forEach(function(el,i){ if(i<2) return; var r=el.getBoundingClientRect(); if(r.top<window.innerHeight) return; el.classList.add("rv"); ro.observe(el); });
+  }
+
+  function onScroll(){ bar.classList.toggle("on", window.scrollY>300 && dim.hidden); }
+  window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
+
+  function open(){ lastFocus=document.activeElement; viewDone.hidden=true; viewForm.hidden=false; err.hidden=true; dim.hidden=false; document.body.style.overflow="hidden"; onScroll(); $("#sheet").scrollTop=0; var f=$("#date-1"); if(f) f.focus({preventScroll:true}); }
+  function close(){ dim.hidden=true; document.body.style.overflow=""; onScroll(); if(lastFocus&&lastFocus.focus) lastFocus.focus({preventScroll:true}); }
+  $$(".js-open").forEach(function(b){ b.addEventListener("click",open); });
+  $$(".js-close").forEach(function(b){ b.addEventListener("click",close); });
+  $$(".js-kakao").forEach(function(b){ b.addEventListener("click",function(){ if(CONFIG.KAKAO_URL){ var a=document.createElement("a"); a.href=CONFIG.KAKAO_URL; a.target="_blank"; a.rel="noopener"; document.body.appendChild(a); a.click(); a.remove(); } else open(); }); });
+  dim.addEventListener("click",function(e){ if(e.target===dim) close(); });
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape"&&!dim.hidden) close(); });
+
+  // 기업 연차에 따라 기업 정보 칸 펼치기
+  $$('input[name="stage"]').forEach(function(r){ r.addEventListener("change",function(){ co.hidden = (r.value==="예비"); }); });
+
+  // 연락처 자동 하이픈
+  $("#phone").addEventListener("input",function(e){
+    var d=e.target.value.replace(/\D/g,"").slice(0,11);
+    e.target.value = d.length<4 ? d : d.length<8 ? d.slice(0,3)+"-"+d.slice(3) : d.slice(0,3)+"-"+d.slice(3,7)+"-"+d.slice(7);
+  });
+
+  function val(name){ var c=form.querySelector('input[name="'+name+'"]:checked'); return c?c.value:""; }
+  function check(d){
+    if(!d.date) return ["세미나 날짜를 골라 주세요","#date-1"];
+    if(!d.time) return ["세미나 시간을 골라 주세요","#time-1"];
+    if(d.name.length<2) return ["이름을 적어 주세요","#name"];
+    if(!/^01\d-\d{3,4}-\d{4}$/.test(d.phone)) return ["연락처를 010-0000-0000 형식으로 적어 주세요","#phone"];
+    if(!(Number(d.age)>=14&&Number(d.age)<=99)) return ["나이를 숫자로 적어 주세요","#age"];
+    if(!d.gender) return ["성별을 골라 주세요","#gender-m"];
+    if(!d.job) return ["현 직종을 적어 주세요","#job"];
+    if(!d.stage) return ["기업 연차를 골라 주세요","#stage-0"];
+    if(d.stage!=="예비"&&!d.company) return ["기업명을 적어 주세요","#company"];
+    if(!d.agree) return ["개인정보 수집·이용에 동의해 주세요","#agree"];
+    return null;
+  }
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    var d={ date:val("date"), time:val("time"), name:$("#name").value.trim(), phone:$("#phone").value.trim(), age:$("#age").value.trim(), gender:val("gender"),
+      job:$("#job").value.trim(), stage:val("stage"), company:$("#company").value.trim(), sales:$("#sales").value.trim(), insured:$("#insured").value.trim(),
+      service:$("#service").value.trim(), agree:$("#agree").checked, at:new Date().toISOString() };
+    var bad=check(d);
+    if(bad){ err.textContent=bad[0]; err.hidden=false; var el=$(bad[1]); if(el){ el.focus({preventScroll:true}); el.scrollIntoView({block:"center"}); } return; }
+    err.hidden=true;
+    if(d.stage==="예비"){ d.company=d.sales=d.insured=d.service=""; }
+    function done(){
+      $("#done-pre").hidden = !!CONFIG.SUBMIT_URL;
+      $("#done-slot").textContent=d.date+" "+d.time;
+      viewForm.hidden=true; viewDone.hidden=false; $("#sheet").scrollTop=0;
+      form.reset(); co.hidden=true;
+    }
+    if(!CONFIG.SUBMIT_URL){ done(); return; }
+    // 저장이 확인된 뒤에만 완료 화면을 보여 준다
+    var btn=form.querySelector('[type="submit"]'), label=btn?btn.textContent:"";
+    if(btn){ if(btn.disabled) return; btn.disabled=true; btn.textContent="신청 저장 중…"; }
+    function fail(){ err.textContent="저장이 안 됐습니다. 인터넷 연결을 확인하고 다시 눌러 주세요."; err.hidden=false; err.scrollIntoView({block:"center"}); }
+    fetch(CONFIG.SUBMIT_URL,{method:"POST",body:JSON.stringify(d)})
+      .then(function(r){ return r.json(); })
+      .then(function(j){ if(j&&j.ok) done(); else fail(); })
+      .catch(fail)
+      .then(function(){ if(btn){ btn.disabled=false; btn.textContent=label; } });
+  });
+})();
+</script>
+
+</body>
+</html>
